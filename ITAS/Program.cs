@@ -55,7 +55,8 @@ namespace ITAS
             try
             {
                 //виконуємо процедуру заповнення таблиці
-                using (OracleCommand command = new OracleCommand("pkg_tas_reports.reservereport_test", conn))
+                //using (OracleCommand command = new OracleCommand("pkg_tas_reports.reservereport_test", conn))
+                using (OracleCommand command = new OracleCommand("pkg_tas_reports.ReserveReportMain503_504", conn))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add("ip_arcDate", OracleDbType.Date).Value = Parameters.DateReport;
