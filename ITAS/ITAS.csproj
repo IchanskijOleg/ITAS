@@ -53,11 +53,11 @@
   <ItemGroup>
     <Compile Include="DBOracleUtils.cs" />
     <Compile Include="DBUtils.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="FmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FmLogin.Designer.cs">
+      <DependentUpon>FmLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="FmReport.cs">
       <SubType>Form</SubType>
@@ -68,8 +68,8 @@
     <Compile Include="Parameters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="FmLogin.resx">
+      <DependentUpon>FmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FmReport.resx">
       <DependentUpon>FmReport.cs</DependentUpon>
@@ -95,19 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="oci.dll" />
-    <Content Include="Oracle.DataAccess.dll" />
-    <Content Include="oramts.dll" />
-    <Content Include="oramts12.dll" />
-    <Content Include="oramtsus.dll" />
-    <Content Include="orannzsbb12.dll" />
-    <Content Include="oraocci12.dll" />
-    <Content Include="oraocci12d.dll" />
-    <Content Include="oraociei12.dll" />
-    <Content Include="oraons.dll" />
-    <Content Include="OraOps12.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
