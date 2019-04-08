@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Oracle.DataAccess.Client;
+using System.IO;
 
 namespace ITAS
 {
@@ -43,12 +45,22 @@ namespace ITAS
             Parameters.DateReport = dt_report.Value;
             isAuthorized = true;
             this.Close();
+            //
+            //SetReportData(Parameters.ReportId);
         }
 
         private void FmReport_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (!isAuthorized)
                 Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// Начитуємо дані в бд
+        /// </summary>
+        /// <param name="reportId">код звіту</param>
+        private void SetReportData(int reportId)
+        { 
         }
     }
 }
