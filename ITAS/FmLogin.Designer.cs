@@ -89,18 +89,18 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Введіть дані";
             // 
-            // Fm_login
+            // FmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(249, 176);
+            this.ClientSize = new System.Drawing.Size(256, 176);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.bt_in);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tb_pass);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tb_login);
-            this.Name = "Fm_login";
+            this.Name = "FmLogin";
             this.Text = "Вхід до системи";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Fm_login_FormClosed);
             this.ResumeLayout(false);

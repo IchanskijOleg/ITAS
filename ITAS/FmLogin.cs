@@ -25,8 +25,23 @@ namespace ITAS
             {
                 DBUtils.user = tb_login.Text;
                 DBUtils.password = tb_pass.Text;
-                isAuthorized = true;
-                this.Close();
+
+                OracleConnection conn = DBUtils.GetDBConnection();
+                //підключаємося до БД
+                try
+                {
+                    conn.Open();
+                    conn.Close();
+                    isAuthorized = true;
+                    this.Close();
+                    //MessageBox.Show(conn.ConnectionString, "Successful Connection");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Невірний логін чи пароль!", "Помилка!");
+                    //MessageBox.Show("#1 ERROR: " + ex.Message);
+                    //Environment.Exit(0);
+                }
             }
             else
             {
@@ -36,7 +51,7 @@ namespace ITAS
 
         private void Fm_login_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if(!isAuthorized)
+            if (!isAuthorized)
                 Environment.Exit(0);
         }
     }

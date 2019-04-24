@@ -36,6 +36,11 @@
             this.chb_503 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dt_report = new System.Windows.Forms.DateTimePicker();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // bt_report
@@ -79,6 +84,8 @@
             // chb_503
             // 
             this.chb_503.AutoSize = true;
+            this.chb_503.Checked = true;
+            this.chb_503.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chb_503.Location = new System.Drawing.Point(28, 12);
             this.chb_503.Name = "chb_503";
             this.chb_503.Size = new System.Drawing.Size(44, 17);
@@ -104,11 +111,40 @@
             this.dt_report.TabIndex = 6;
             this.dt_report.Value = new System.DateTime(2019, 4, 4, 0, 0, 0, 0);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1,
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 193);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(533, 22);
+            this.statusStrip1.TabIndex = 8;
+            this.statusStrip1.Text = "Статус виконання";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabel1.Text = "...";
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
             // FmReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 185);
+            this.ClientSize = new System.Drawing.Size(533, 215);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.dt_report);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chb_503);
@@ -119,6 +155,8 @@
             this.Name = "FmReport";
             this.Text = "Параметри звіту";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FmReport_FormClosed);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -134,5 +172,9 @@
         private System.Windows.Forms.CheckBox chb_503;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dt_report;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
