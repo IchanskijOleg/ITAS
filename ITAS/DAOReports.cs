@@ -7,6 +7,7 @@ using Oracle.DataAccess.Client;
 using System.Data;
 using System.IO;
 using System.ComponentModel;
+using System.Threading;
 
 namespace ITAS
 {
@@ -18,6 +19,10 @@ namespace ITAS
         public event ProgressStateHandler UpdateStatusStrip;
 
         public event Action RefreshProgressBar;
+
+        // создаем новый поток
+        //Thread myThread = new Thread(new ThreadStart(RefreshStrip));
+        //myThread.Start(); // запускаем поток
 
         //event Action<string> UpdateStatusStrip;
         
@@ -39,14 +44,14 @@ namespace ITAS
             //m_search_bgw.RunWorkerAsync();
             try
             {
+                if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("", 5); }
+                if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
+
                 OracleConnection conn = DBUtils.GetDBConnection();
                 conn.Open();
 
                 if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Начитка даних в БД.", 20); }
-                // if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Начитка даних в БД.", 20); }
-                // if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
 
-                
                 //підключаємося до БД
                 //виконуємо процедуру заповнення таблиці
                 using (OracleCommand command = new OracleCommand("pkg_tas_reports.reservereport_test", conn))
@@ -59,7 +64,7 @@ namespace ITAS
                 }
 
                 if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Завантаження в файл.", 85); }
-                //if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
+                if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
 
                 string qCurr = @"select '""Дата Звіту"";""Валюта"";""Курс"";;""Валюта"";""Курс""' from dual
                              union
@@ -153,7 +158,7 @@ namespace ITAS
                 conn.Close();
 
                 if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Фініш.", 100); }
-                if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
+                //if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
 
             }
             catch (Exception ex)

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Oracle.DataAccess.Client;
 using System.IO;
+using System.Threading;
 
 namespace ITAS
 {
@@ -22,7 +23,11 @@ namespace ITAS
             //подписываемся
             daoReports.UpdateStatusStrip += SetStatusStrip;
             daoReports.RefreshProgressBar += RefreshStrip;
-         }
+            // создаем новый поток
+            //Thread myThread = new Thread(new ThreadStart(RefreshStrip));
+            //myThread.Start(); // запускаем поток
+
+        }
 
         private DAOReports daoReports = null;
         private bool isAuthorized = false;
@@ -47,8 +52,6 @@ namespace ITAS
 
         private void bt_report_Click(object sender, EventArgs e)
         {
-            backgroundWorker1.RunWorkerAsync(statusStrip1);
-
             Parameters.FilePath = tb_folder.Text;
             Parameters.ReportId = (chb_503.Checked) ? 503 : 504;
             Parameters.DateReport = dt_report.Value;
@@ -75,55 +78,27 @@ namespace ITAS
         }
 
         public void SetStatusStrip(string text, int val)
-        {     
+        {
             //statusStrip1.BackColor = Color.Green;
             toolStripStatusLabel1.Text = text;
             // toolStripProgressBar1.Increment(val);
             //toolStripProgressBar1.Value = val;
-            toolStripProgressBar1.Value = val;  
+            toolStripProgressBar1.Value = val;
             //toolStripProgressBar1.
             //toolStripProgressBar1.ProgressBar.Refresh();
             statusStrip1.Refresh();
-             
+
             this.Refresh();
 
             //backgroundWorker1.RunWorkerAsync();
         }
         public void RefreshStrip()
         {
-            toolStripProgressBar1.Value = 20;
-            //this.Refresh();
-            //toolStripProgressBar1.Value = 0;
-            statusStrip1.Refresh();  
-            this.Refresh();
-        }
-        private void met()
-        { 
-            toolStripProgressBar1.Value = 0;
-            toolStripStatusLabel1.Visible = true;
-        }
-
-        private bool functionThread2()
-        {
-            return true;
-        }
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-
-            //e.Result = functionThread2();
-           // statusStrip1.Refresh();
-            toolStripProgressBar1.Value = 10;
-        }
-
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            statusStrip1.Refresh();
-        }
-
-        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            statusStrip1.Refresh();
-            toolStripProgressBar1.Value = 20;
+            //new Thread(new ThreadStart(() =>
+            //{
+            //    //statusStrip1.Refresh();
+            //    this.Refresh();
+            //})).Start();
         }
     }
 }
