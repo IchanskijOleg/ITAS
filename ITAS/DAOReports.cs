@@ -18,9 +18,11 @@ namespace ITAS
         public event ProgressStateHandler UpdateStatusStrip;
 
         public event Action RefreshProgressBar;
-
-        //event Action<string> UpdateStatusStrip;
+        public System.ComponentModel.BackgroundWorker backgroundWorker1;
+        //public event Action<string> backgroundWorker1;
         
+        //event Action<string> UpdateStatusStrip;
+
         /// <summary>
         /// Змінюємо відповідно до csv формату
         /// </summary>
@@ -44,13 +46,17 @@ namespace ITAS
 
                 if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Начитка даних в БД.", 20); }
                 // if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Начитка даних в БД.", 20); }
-                // if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
+                if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
+                // {
+                //    this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+                //    backgroundWorker1.RunWorkerAsync();
+                //}
 
-                
+
                 //підключаємося до БД
                 //виконуємо процедуру заповнення таблиці
-                using (OracleCommand command = new OracleCommand("pkg_tas_reports.reservereport_test", conn))
-                //using (OracleCommand command = new OracleCommand("pkg_tas_reports.ReserveReportMain503_504", conn))
+                //using (OracleCommand command = new OracleCommand("pkg_tas_reports.reservereport_test", conn)) //на тестовій Лізі для тесту
+                using (OracleCommand command = new OracleCommand("pkg_tas_reports.ReserveReportMain503_504", conn))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add("ip_arcDate", OracleDbType.Date).Value = Parameters.DateReport;
@@ -59,7 +65,7 @@ namespace ITAS
                 }
 
                 if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Завантаження в файл.", 85); }
-                //if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
+                if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
 
                 string qCurr = @"select '""Дата Звіту"";""Валюта"";""Курс"";;""Валюта"";""Курс""' from dual
                              union

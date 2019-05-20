@@ -17,18 +17,25 @@ namespace ITAS
         public FmReport()
         {
             InitializeComponent();
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.WorkerSupportsCancellation = true;
 
             daoReports = new DAOReports();
             //подписываемся
             daoReports.UpdateStatusStrip += SetStatusStrip;
             daoReports.RefreshProgressBar += RefreshStrip;
-         }
 
+            backgroundWorker1.DoWork +=
+                new DoWorkEventHandler(backgroundWorker1_DoWork);
+
+        }
+        private int proc = 0;
         private DAOReports daoReports = null;
         private bool isAuthorized = false;
 
         private void bt_OpenFolder_Click(object sender, EventArgs e)
         {
+            folderBrowserDialog1.Reset();
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 tb_folder.Text = folderBrowserDialog1.SelectedPath;
@@ -47,7 +54,8 @@ namespace ITAS
 
         private void bt_report_Click(object sender, EventArgs e)
         {
-            backgroundWorker1.RunWorkerAsync(statusStrip1);
+            // Start the asynchronous operation.
+            backgroundWorker1.RunWorkerAsync();
 
             Parameters.FilePath = tb_folder.Text;
             Parameters.ReportId = (chb_503.Checked) ? 503 : 504;
@@ -75,30 +83,30 @@ namespace ITAS
         }
 
         public void SetStatusStrip(string text, int val)
-        {     
+        {
             //statusStrip1.BackColor = Color.Green;
             toolStripStatusLabel1.Text = text;
             // toolStripProgressBar1.Increment(val);
             //toolStripProgressBar1.Value = val;
-            toolStripProgressBar1.Value = val;  
+            proc = val;
+            toolStripProgressBar1.Value = val;
             //toolStripProgressBar1.
             //toolStripProgressBar1.ProgressBar.Refresh();
             statusStrip1.Refresh();
-             
+
             this.Refresh();
 
             //backgroundWorker1.RunWorkerAsync();
         }
         public void RefreshStrip()
         {
-            toolStripProgressBar1.Value = 20;
-            //this.Refresh();
-            //toolStripProgressBar1.Value = 0;
+            //backgroundWorker1_DoWork(null, null);
+            //toolStripProgressBar1.Value = 20;
             statusStrip1.Refresh();  
             this.Refresh();
         }
         private void met()
-        { 
+        {
             toolStripProgressBar1.Value = 0;
             toolStripStatusLabel1.Visible = true;
         }
@@ -109,10 +117,12 @@ namespace ITAS
         }
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-
             //e.Result = functionThread2();
-           // statusStrip1.Refresh();
-            toolStripProgressBar1.Value = 10;
+            statusStrip1.Refresh();
+            this.Refresh();
+            toolStripProgressBar1.Value = proc;
+            statusStrip1.Refresh();
+            this.Refresh();
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

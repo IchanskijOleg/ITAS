@@ -18,7 +18,12 @@ namespace ITAS
 
         public static OracleConnection GetDBConnection()
         {
-            return DBOracleUtils.GetDBConnection(host, port, sid, user, password);
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["lisa_linux"].ConnectionString;
+            var connectionBuilder = new OracleConnectionStringBuilder(connectionString);
+            connectionBuilder.UserID = user;
+            connectionBuilder.Password = password;
+            return new OracleConnection(connectionBuilder.ConnectionString);
+            //return DBOracleUtils.GetDBConnection(host, port, sid, user, password);
         }
     }
 }
