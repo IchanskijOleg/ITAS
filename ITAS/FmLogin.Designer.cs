@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FmLogin));
             this.tb_login = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -100,6 +101,7 @@
             this.Controls.Add(this.tb_pass);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tb_login);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FmLogin";
             this.Text = "Вхід до системи";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Fm_login_FormClosed);

@@ -9,29 +9,44 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Oracle.DataAccess.Client;
 using System.IO;
+using System.Threading;
 
 namespace ITAS
 {
     public partial class FmReport : Form
     {
+        //Thread th;
         public FmReport()
         {
             InitializeComponent();
-            backgroundWorker1.WorkerReportsProgress = true;
-            backgroundWorker1.WorkerSupportsCancellation = true;
 
             daoReports = new DAOReports();
             //подписываемся
-            daoReports.UpdateStatusStrip += SetStatusStrip;
-            daoReports.RefreshProgressBar += RefreshStrip;
+            worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
 
-            backgroundWorker1.DoWork +=
-                new DoWorkEventHandler(backgroundWorker1_DoWork);
+            worker.DoWork += (s, e) =>
+            {
+                daoReports.SetReportData(worker);
+            };
+            worker.ProgressChanged += (sender, e) =>
+            {
+                var text = e.UserState as string;
 
-        }
-        private int proc = 0;
+                toolStripStatusLabel1.Text = text;
+                toolStripProgressBar1.Value = e.ProgressPercentage;
+                //statusStrip1.Refresh();
+            };
+
+            worker.RunWorkerCompleted += (s, e) =>
+            {
+                this.Close();
+            };
+        } 
+
         private DAOReports daoReports = null;
         private bool isAuthorized = false;
+        private readonly BackgroundWorker worker;
 
         private void bt_OpenFolder_Click(object sender, EventArgs e)
         {
@@ -54,9 +69,6 @@ namespace ITAS
 
         private void bt_report_Click(object sender, EventArgs e)
         {
-            // Start the asynchronous operation.
-            backgroundWorker1.RunWorkerAsync();
-
             Parameters.FilePath = tb_folder.Text;
             Parameters.ReportId = (chb_503.Checked) ? 503 : 504;
             Parameters.DateReport = dt_report.Value;
@@ -68,11 +80,12 @@ namespace ITAS
             else
             {
                 isAuthorized = true;
-
+                bt_report.Enabled = false;
+                //th = new Thread(()=> daoReports.SetReportData());
+                //th.Start();
                 //виконуємо начитку данних
-                daoReports.SetReportData();
+                worker.RunWorkerAsync();
                 //закриваємо формочку
-                this.Close();
             }
         }
 
@@ -82,58 +95,10 @@ namespace ITAS
                 Environment.Exit(0);
         }
 
-        public void SetStatusStrip(string text, int val)
-        {
-            //statusStrip1.BackColor = Color.Green;
-            toolStripStatusLabel1.Text = text;
-            // toolStripProgressBar1.Increment(val);
-            //toolStripProgressBar1.Value = val;
-            proc = val;
-            toolStripProgressBar1.Value = val;
-            //toolStripProgressBar1.
-            //toolStripProgressBar1.ProgressBar.Refresh();
-            statusStrip1.Refresh();
-
-            this.Refresh();
-
-            //backgroundWorker1.RunWorkerAsync();
-        }
         public void RefreshStrip()
         {
-            //backgroundWorker1_DoWork(null, null);
-            //toolStripProgressBar1.Value = 20;
             statusStrip1.Refresh();  
             this.Refresh();
-        }
-        private void met()
-        {
-            toolStripProgressBar1.Value = 0;
-            toolStripStatusLabel1.Visible = true;
-        }
-
-        private bool functionThread2()
-        {
-            return true;
-        }
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            //e.Result = functionThread2();
-            statusStrip1.Refresh();
-            this.Refresh();
-            toolStripProgressBar1.Value = proc;
-            statusStrip1.Refresh();
-            this.Refresh();
-        }
-
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            statusStrip1.Refresh();
-        }
-
-        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            statusStrip1.Refresh();
-            toolStripProgressBar1.Value = 20;
-        }
+        }  
     }
 }

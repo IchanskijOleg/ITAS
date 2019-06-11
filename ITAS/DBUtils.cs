@@ -4,22 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oracle.DataAccess.Client;
+//using System.Data.OracleClient;
 
 namespace ITAS
 {
     class DBUtils
     {
         //private static string host = "192.168.1.36"; // BO
-        private static string host = "192.168.1.37"; //TEST
-        private static int port = 1521;
-        private static string sid = "lisa";
+        //private static string host = "192.168.1.37"; //TEST
+        //private static int port = 1521;
+        //private static string sid = "lisa";
         public static string user = "";
         public static string password = "";
 
         public static OracleConnection GetDBConnection()
         {
+            //string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["lisa_test"].ConnectionString;
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["lisa_linux"].ConnectionString;
-            var connectionBuilder = new OracleConnectionStringBuilder(connectionString);
+            OracleConnectionStringBuilder connectionBuilder = new OracleConnectionStringBuilder(connectionString);
             connectionBuilder.UserID = user;
             connectionBuilder.Password = password;
             return new OracleConnection(connectionBuilder.ConnectionString);

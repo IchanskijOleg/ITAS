@@ -7,6 +7,7 @@ using Oracle.DataAccess.Client;
 using System.Data;
 using System.IO;
 using System.ComponentModel;
+using System.Threading;
 
 namespace ITAS
 {
@@ -17,10 +18,8 @@ namespace ITAS
         // Событие, возникающее при смене статуса прогресса
         public event ProgressStateHandler UpdateStatusStrip;
 
-        public event Action RefreshProgressBar;
-        public System.ComponentModel.BackgroundWorker backgroundWorker1;
         //public event Action<string> backgroundWorker1;
-        
+        //Thread myThread;
         //event Action<string> UpdateStatusStrip;
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace ITAS
             return st.Replace("'", "") + ";";
         }
 
-        public void SetReportData()
+        public void SetReportData(BackgroundWorker worker)
         {
             //BackgroundWorker m_search_bgw = new BackgroundWorker();
             //m_search_bgw.RunWorkerAsync();
@@ -44,19 +43,19 @@ namespace ITAS
                 OracleConnection conn = DBUtils.GetDBConnection();
                 conn.Open();
 
-                if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Начитка даних в БД.", 20); }
-                // if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Начитка даних в БД.", 20); }
-                if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
-                // {
-                //    this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-                //    backgroundWorker1.RunWorkerAsync();
-                //}
-
+                //if (UpdateStatusStrip != null)
+                {
+                    worker.ReportProgress(20, "Начитка даних в БД.");
+                    //UpdateStatusStrip.Invoke("Начитка даних в БД.", 20);
+                    //Thread myThread = new Thread(() => { UpdateStatusStrip.Invoke("Начитка даних в БД.", 20); });
+                    //myThread.Start();
+                }
+                //if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
 
                 //підключаємося до БД
                 //виконуємо процедуру заповнення таблиці
                 //using (OracleCommand command = new OracleCommand("pkg_tas_reports.reservereport_test", conn)) //на тестовій Лізі для тесту
-                using (OracleCommand command = new OracleCommand("pkg_tas_reports.ReserveReportMain503_504", conn))
+                using (OracleCommand command = new OracleCommand("lisa.pkg_tas_reports.ReserveReportMain503_504", conn))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add("ip_arcDate", OracleDbType.Date).Value = Parameters.DateReport;
@@ -64,8 +63,14 @@ namespace ITAS
                     command.ExecuteNonQuery();
                 }
 
-                if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Завантаження в файл.", 85); }
-                if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
+                //if (UpdateStatusStrip != null)
+                {
+                    //Thread myThread = new Thread(() => { UpdateStatusStrip.Invoke("Завантаження в файл.", 85); });
+                    //myThread.Start();
+                    //UpdateStatusStrip.Invoke("Завантаження в файл.", 85);
+                    worker.ReportProgress(85, "Завантаження в файл.");
+                }
+                //if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
 
                 string qCurr = @"select '""Дата Звіту"";""Валюта"";""Курс"";;""Валюта"";""Курс""' from dual
                              union
@@ -158,9 +163,14 @@ namespace ITAS
                 }
                 conn.Close();
 
-                if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Фініш.", 100); }
-                if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
-
+                // if (UpdateStatusStrip != null) { UpdateStatusStrip.Invoke("Фініш.", 100); }
+                //if (RefreshProgressBar != null) { RefreshProgressBar.Invoke(); }
+                //if (UpdateStatusStrip != null)
+                {
+                    //myThread = new Thread(() => { UpdateStatusStrip.Invoke("Фініш.", 100); });
+                    //UpdateStatusStrip.Invoke("Фініш.", 100);
+                    worker.ReportProgress(100, "Фініш.");
+                }
             }
             catch (Exception ex)
             {
