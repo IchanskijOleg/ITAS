@@ -16,11 +16,12 @@ namespace ITAS
         //private static string sid = "lisa";
         public static string user = "";
         public static string password = "";
+        public static string tns;
 
         public static OracleConnection GetDBConnection()
         {
             //string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["lisa_test"].ConnectionString;
-            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["lisa_linux"].ConnectionString;
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[tns].ConnectionString;
             OracleConnectionStringBuilder connectionBuilder = new OracleConnectionStringBuilder(connectionString);
             connectionBuilder.UserID = user;
             connectionBuilder.Password = password;

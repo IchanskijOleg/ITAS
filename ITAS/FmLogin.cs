@@ -21,31 +21,39 @@ namespace ITAS
 
         private void bt_in_Click(object sender, EventArgs e)
         {
-            if (tb_login.Text != "" && tb_pass.Text != "")
+            if (tb_tns.Text != "")
             {
-                DBUtils.user = tb_login.Text;
-                DBUtils.password = tb_pass.Text;
+                if (tb_login.Text != "" && tb_pass.Text != "")
+                {
+                    DBUtils.user = tb_login.Text;
+                    DBUtils.password = tb_pass.Text;
+                    DBUtils.tns = tb_tns.Text;
 
-                OracleConnection conn = DBUtils.GetDBConnection();
-                //підключаємося до БД
-                try
-                {
-                    conn.Open();
-                    conn.Close();
-                    isAuthorized = true;
-                    this.Close();
-                    //MessageBox.Show(conn.ConnectionString, "Successful Connection");
+                    OracleConnection conn = DBUtils.GetDBConnection();
+                    //підключаємося до БД
+                    try
+                    {
+                        conn.Open();
+                        conn.Close();
+                        isAuthorized = true;
+                        this.Close();
+                        //MessageBox.Show(conn.ConnectionString, "Successful Connection");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Невірний логін чи пароль!", "Помилка!");
+                        //MessageBox.Show("#1 ERROR: " + ex.Message);
+                        //Environment.Exit(0);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Невірний логін чи пароль!", "Помилка!");
-                    //MessageBox.Show("#1 ERROR: " + ex.Message);
-                    //Environment.Exit(0);
+                    MessageBox.Show("Уведіть логін та пароль!");
                 }
             }
             else
             {
-                MessageBox.Show("Уведіть логін та пароль!");
+                MessageBox.Show("Уведіть TNS! Одне з: lisa_linux, lisa_bo, lisa_test.");
             }
         }
 
