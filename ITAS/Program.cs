@@ -23,9 +23,11 @@ namespace ITAS
             //вікно входу в систему
             Application.Run(new FmLogin());
 
-            //вікно параметрів Звіту
+            //вікно параметрів Звіту Актуаріїв
             Application.Run(new FmReport());
 
+            //вікно параметрів звіту для корпоративного страхування
+            //Application.Run(new FmMain());
         }
     }
 }

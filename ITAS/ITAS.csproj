@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAOReports.cs" />
-    <Compile Include="DBOracleUtils.cs" />
     <Compile Include="DBUtils.cs" />
     <Compile Include="FmLogin.cs">
       <SubType>Form</SubType>
@@ -71,7 +70,19 @@
     <Compile Include="FmReport.Designer.cs">
       <DependentUpon>FmReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="FmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FmMain.Designer.cs">
+      <DependentUpon>FmMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Parameters.cs" />
+    <Compile Include="PolicyXmlConvert.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PolicyXmlConvert.Designer.cs">
+      <DependentUpon>PolicyXmlConvert.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FmLogin.resx">
@@ -79,6 +90,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FmReport.resx">
       <DependentUpon>FmReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FmMain.resx">
+      <DependentUpon>FmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PolicyXmlConvert.resx">
+      <DependentUpon>PolicyXmlConvert.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
