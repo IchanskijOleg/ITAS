@@ -144,9 +144,6 @@
     <Content Include="oraocci18d.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="oraociei18.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="oraons.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
